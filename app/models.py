@@ -33,6 +33,11 @@ class Event(db.Model):
     def __repr__(self):
         return '<Event {}'.format(self.name)
 
+    plans = db.Table('plans',
+        db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
+        db.Column('event_id', db.Integer, db.ForeignKey('event.id'))
+    )
+
 @login.user_loader
 def load_user(id):
     return User.query.get(int(id))
