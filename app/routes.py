@@ -1,4 +1,4 @@
-from app import app
+from app import app, db
 from flask import render_template, flash, redirect, url_for, request
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.urls import url_parse
@@ -6,7 +6,7 @@ from app.models import User
 
 # for forms
 from flask_wtf import FlaskForm
-from forms import LoginForm, EventParamsForm
+from forms import LoginForm, EventParamsForm, RegistrationForm
 
 # Libs for functionality
 import calendar as cal
@@ -25,6 +25,23 @@ def index():
 
         flash("Got: city, country, dates! Nice!")
     return render_template('index.html', title='Find best airshows around', form=form)
+
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if current_user.is_authenticated:
+        return redirect(url_for('my-events'))  # TODO fix, if any
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        user = User()
+        user.username = form.username.data
+        user.email = form.email.data
+        user.set_password(form.password.data)
+        db.session.add(user)
+        db.session.commit()
+        flash('Congratulations, you are now a registered user!')
+        return redirect(url_for('login'))
+    return render_template('register.html', title='Register', form=form)
 
 
 @app.route('/login', methods=['GET', 'POST'])
