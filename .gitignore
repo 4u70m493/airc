@@ -4,3 +4,4 @@ airc/
 
 # files
 *.pyc
+.flaskenv
