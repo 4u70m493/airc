@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_login import LoginManager
 
 # for database ops
 from flask_sqlalchemy import SQLAlchemy
@@ -10,8 +11,11 @@ from config import Config
 # Init everything. Start systems.
 app = Flask(__name__)
 app.config.from_object(Config) # TODO rewrite to reading a dedicated file
+
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
+
+login = LoginManager(app)
 
 from app import routes, models
 
