@@ -1,6 +1,7 @@
 .idea/
 .unrealsync/
 airc/ 
+venv/
 
 # files
 *.pyc
