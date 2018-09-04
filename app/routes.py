@@ -5,6 +5,9 @@ from flask import render_template, flash, redirect
 from flask_wtf import FlaskForm
 from forms import LoginForm, EventParamsForm
 
+# Libs for functionality
+import calendar as cal
+
 # Define supported routes
 @app.route('/')
 def show_form():
