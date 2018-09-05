@@ -75,6 +75,15 @@ Full workflow, when you add a new table:
 
 Ref Flask-SQLAlchemy: http://flask-sqlalchemy.pocoo.org/2.3/
 
+## Running tests
+
+Right now as simple as
+
+```
+$ python tests.py
+```
+
+
 # Word of gratitude
 As this is tutorial project, I've used everything as per:
 https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-iv-database
