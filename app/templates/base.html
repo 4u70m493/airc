@@ -3,17 +3,18 @@
       {% if title %}
       <title>{{ title }} - AirShows.pro</title>
       {% else %}
-      <title>Welcome to AirShows.pro</title>
+      <title>AirShows.pro</title>
       {% endif %}
     </head>
     <body>
         <!-- Top level menu -->
         <div>
-            <a href="{{ url_for('index') }}">Home</a>
+            <a href="{{ url_for('index') }}">Explore</a>
             {% if current_user.is_anonymous %}
             <a href="{{ url_for('register') }}">Register</a>
             <a href="{{ url_for('login') }}">Login</a>
             {% else %}
+            <a href="{{ url_for('my_events') }}">My events</a>
             <a href="{{ url_for('logout') }}">Logout</a>
             {% endif %}
         </div>

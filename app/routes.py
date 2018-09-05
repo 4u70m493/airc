@@ -103,7 +103,8 @@ def unplan(event_id):
 @login_required
 @app.route('/my-events')
 def my_events():
-    pass # TODO do it actually
+    events = current_user.planned_events().all()
+    return render_template('my-events.html', events=events)
 
 
 @app.route('/calendar')
