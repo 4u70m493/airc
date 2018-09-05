@@ -4,6 +4,11 @@ from flask_login import UserMixin
 from app import db, login
 
 
+plans = db.Table('plans',
+    db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
+    db.Column('event_id', db.Integer, db.ForeignKey('event.id'))
+)
+
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True)
@@ -15,6 +20,13 @@ class User(UserMixin, db.Model):
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
+
+    planned = db.relationship(
+        'Event',
+        secondary=plans,
+        primaryjoin=(plans.c.user_id == id),
+        secondaryjoin=(plans.c.event_id == id),
+        backref=db.backref('plans', lazy='dynamic'), lazy='dynamic')  # TODO: recheck, is this right syntax or not.
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
@@ -33,10 +45,6 @@ class Event(db.Model):
     def __repr__(self):
         return '<Event {}'.format(self.name)
 
-    plans = db.Table('plans',
-        db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
-        db.Column('event_id', db.Integer, db.ForeignKey('event.id'))
-    )
 
 @login.user_loader
 def load_user(id):
