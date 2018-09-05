@@ -1,0 +1,9 @@
+        <h1>Event: {{ event.name }}</h1>
+        {% if event.date_from %}<p>From: {{ event.date_from }}</p>{% endif %}
+        {% if event.date_to %}<p>Till: {{ event.date_to }}</p>{% endif %}
+
+        {% if not current_user.is_planning(event) %}
+        <p><a href="{{ url_for('plan', event_id=event.id) }}">Plan</a></p>
+        {% else %}
+        <p><a href="{{ url_for('unplan', event_id=event.it) }}">Unplan</a></p>
+        {% endif %}

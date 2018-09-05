@@ -2,7 +2,7 @@ from app import app, db
 from flask import render_template, flash, redirect, url_for, request
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.urls import url_parse
-from app.models import User
+from app.models import User, Event
 
 # for forms
 from flask_wtf import FlaskForm
@@ -66,15 +66,51 @@ def logout():
     logout_user()
     return redirect(url_for('index'))
 
+
+@app.route('/event/<id>')
+def show_event(event_id):
+    event = Event.query.filter_by(id=event_id).first_or_404()
+    return render_template('event.html', event=event)
+
+
+@app.route('/plan/<id>')
+@login_required
+def plan(event_id):
+    event = Event.query.filter_by(id=event_id).first()
+    if event is None:
+        flash('Event {} not found.'.format(event_id))
+        return redirect(url_for('my-events'))
+    current_user.plan(event_id)
+    db.session.commit()
+    flash("You've planned {}!".format(event.name))
+    return redirect(url_for('my-events'))
+
+
+@app.route('/unplan/<id>')
+@login_required
+def unplan(event_id):
+    event = Event.query.filter_by(id=event_id).first()
+    if event is None:
+        flash('Event {} not found.'.format(event_id))
+        return redirect(url_for('my-events'))
+
+    current_user.unplan(event_id)
+    db.session.commit()
+    flash('You have unplanned {}.'.format(event.name))
+    return redirect(url_for('my-events'))
+
+
 @login_required
 @app.route('/my-events')
 def my_events():
     pass # TODO do it actually
 
+
 @app.route('/calendar')
 def show_calendar():
     c = cal.HTMLCalendar(cal.MONDAY)
     return c.formatmonth(2018,9)
+
 
 @app.route('/hello')
 def hello_world():
