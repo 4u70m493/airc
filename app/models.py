@@ -10,6 +10,20 @@ plans = db.Table('plans',
 )
 
 
+class Event(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(255), index=True, unique=True)
+    from_ts = db.Column(db.DateTime)
+    to_ts = db.Column(db.DateTime)
+    added_ts = db.Column(db.DateTime, default=datetime.utcnow)
+    city = db.Column(db.String(255))
+    country = db.Column(db.String(255))
+    location = db.Column(db.String(255))
+
+    def __repr__(self):
+        return '<Event {}'.format(self.name)
+
+
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True)
@@ -23,10 +37,10 @@ class User(UserMixin, db.Model):
         return check_password_hash(self.password_hash, password)
 
     planned = db.relationship(
-        'Event',
+        Event,
         secondary=plans,
         primaryjoin=(plans.c.user_id == id),
-        secondaryjoin=(plans.c.event_id == id),
+        secondaryjoin=(plans.c.event_id == Event.id),
         backref=db.backref('plans', lazy='dynamic'), lazy='dynamic')  # TODO: recheck, is this right syntax or not.
 
     def plan(self, event):
@@ -39,7 +53,7 @@ class User(UserMixin, db.Model):
 
     def is_planning(self, event):
         return self.planned.filter(
-            plans.c.user_id == event.id).count() > 0  # TODO: recheck this query expression!
+            plans.c.event_id == event.id).count() > 0  # TODO: recheck this query expression!
 
     def planned_events(self):
         return Event.query.join(
@@ -49,20 +63,6 @@ class User(UserMixin, db.Model):
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
-
-
-class Event(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(255), index=True, unique=True)
-    from_ts = db.Column(db.DateTime)
-    to_ts = db.Column(db.DateTime)
-    added_ts = db.Column(db.DateTime, default=datetime.utcnow)
-    city = db.Column(db.String(255))
-    country = db.Column(db.String(255))
-    location = db.Column(db.String(255))
-
-    def __repr__(self):
-        return '<Event {}'.format(self.name)
 
 
 @login.user_loader
