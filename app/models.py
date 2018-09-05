@@ -9,6 +9,7 @@ plans = db.Table('plans',
     db.Column('event_id', db.Integer, db.ForeignKey('event.id'))
 )
 
+
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True)
@@ -27,6 +28,24 @@ class User(UserMixin, db.Model):
         primaryjoin=(plans.c.user_id == id),
         secondaryjoin=(plans.c.event_id == id),
         backref=db.backref('plans', lazy='dynamic'), lazy='dynamic')  # TODO: recheck, is this right syntax or not.
+
+    def plan(self, event):
+        if not self.is_planning(event):
+            self.planned.append(event)
+
+    def unplan(self, event):
+        if self.is_planning(event):
+            self.planned.remove(event)
+
+    def is_planning(self, event):
+        return self.planned.filter(
+            plans.c.user_id == event.id).count() > 0  # TODO: recheck this query expression!
+
+    def planned_events(self):
+        return Event.query.join(
+            plans, (plans.c.event_id == Event.id)).filter(
+            plans.c.user_id == self.id).order_by(
+            Event.from_ts.asc())
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
