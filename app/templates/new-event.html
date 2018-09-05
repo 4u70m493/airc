@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Add new event</h1>
+    <form action="" method="post" novalidate>
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.name.label }}<br>
+            {{ form.name(size=32) }}
+        </p>
+        <p>
+            {{ form.from_ts.label }}<br>
+            {{ form.from_ts(size=32) }}
+        </p>
+        <p>
+            {{ form.to_ts.label }}<br>
+            {{ form.to_ts(size=32) }}
+        </p>
+                <p>
+            {{ form.country.label }}<br>
+            {{ form.country(size=64) }}
+        </p>
+                <p>
+            {{ form.city.label }}<br>
+            {{ form.city(size=64) }}
+        </p>
+                <p>
+            {{ form.location.label }}<br>
+            {{ form.location(size=64) }}
+        </p>
+        <p>{{ form.submit() }}</p>
+    </form>
+{% endblock %}

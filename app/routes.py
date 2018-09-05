@@ -3,10 +3,12 @@ from flask import render_template, flash, redirect, url_for, request
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.urls import url_parse
 from app.models import User, Event
+from datetime import datetime
+from helpers import form2datetime
 
 # for forms
 from flask_wtf import FlaskForm
-from forms import LoginForm, EventParamsForm, RegistrationForm
+from forms import LoginForm, EventParamsForm, RegistrationForm, NewEventForm
 
 # Libs for functionality
 import calendar as cal
@@ -23,7 +25,7 @@ def index():
         date_from = form.date_from.data
         date_to = form.date_to.data
 
-        flash("Got: city, country, dates! Nice!")
+        flash("Got: city, country, dates! Nice!")  # TODO implement actual search + return results!
     return render_template('index.html', title='Find best airshows around', form=form)
 
 
@@ -67,13 +69,13 @@ def logout():
     return redirect(url_for('index'))
 
 
-@app.route('/event/<id>')
+@app.route('/event/<event_id>')
 def show_event(event_id):
     event = Event.query.filter_by(id=event_id).first_or_404()
     return render_template('event.html', event=event)
 
 
-@app.route('/plan/<id>')
+@app.route('/plan/<event_id>')
 @login_required
 def plan(event_id):
     event = Event.query.filter_by(id=event_id).first()
@@ -86,7 +88,7 @@ def plan(event_id):
     return redirect(url_for('my-events'))
 
 
-@app.route('/unplan/<id>')
+@app.route('/unplan/<event_id>')
 @login_required
 def unplan(event_id):
     event = Event.query.filter_by(id=event_id).first()
@@ -105,6 +107,27 @@ def unplan(event_id):
 def my_events():
     events = current_user.planned_events().all()
     return render_template('my-events.html', events=events)
+
+
+@login_required
+@app.route('/new-event', methods=['GET', 'POST'])
+def new_event():
+    form = NewEventForm()
+    if form.validate_on_submit():
+        event = Event()
+        event.name = form.name.data
+        event.from_ts = form2datetime(form.from_ts.data)
+        event.to_ts = form2datetime(form.to_ts.data)
+        event.added_ts = datetime.utcnow()
+        event.city = form.city.data
+        event.country = form.country.data
+        event.location = form.location.data
+        db.session.add(event)
+        db.session.commit()
+
+        flash('Congratulations, you have added new event: {}'.format(event.name))
+        return redirect(url_for('show_event'.format(event.id)))  # todo will it work?
+    return render_template('new-event.html', title='Add new event', form=form)
 
 
 @app.route('/calendar')

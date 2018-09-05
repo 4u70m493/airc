@@ -21,6 +21,16 @@ class EventParamsForm(FlaskForm):
     submit = SubmitField('Find events')
 
 
+class NewEventForm(FlaskForm):
+    name = StringField('Event name')
+    city = StringField('City')
+    country = StringField('Country')
+    location = StringField('Location')
+    from_ts = StringField('Date from')
+    to_ts = StringField('Date to')
+    submit = SubmitField('Add event')
+
+
 class RegistrationForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired(), Email()])
