@@ -23,6 +23,7 @@ class EventParamsForm(FlaskForm):
 
 class NewEventForm(FlaskForm):
     name = StringField('Event name')
+    desc = StringField('Description')
     city = StringField('City')
     country = StringField('Country')
     location = StringField('Location')

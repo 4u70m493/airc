@@ -124,6 +124,7 @@ def new_event():
         event.city = form.city.data
         event.country = form.country.data
         event.location = form.location.data
+        event.desc = form.desc.data
         db.session.add(event)
         db.session.commit()
 
