@@ -26,7 +26,7 @@ def index():
         date_to = form.date_to.data
         flash("Got: city, country, dates! Nice!")  # TODO implement actual search + return results!
         e = Event()
-        events = Event.get_on_criteria(e, from_ts=date_from, to_ts=date_to, city=city, country=country)
+        events = Event.get_on_criteria(e, from_ts=date_from, to_ts=date_to, city=city, country=country).all()
         return render_template('search-results.html', events=events)
     return render_template('index.html', title='Find best airshows around', form=form)
 
@@ -34,7 +34,7 @@ def index():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
-        return redirect(url_for('my-events'))  # TODO fix, if any
+        return redirect(url_for('my-events'))
     form = RegistrationForm()
     if form.validate_on_submit():
         user = User()
@@ -137,19 +137,3 @@ def new_event():
 def show_calendar():
     c = cal.HTMLCalendar(cal.MONDAY)
     return c.formatmonth(2018,9)
-
-
-@app.route('/hello')
-def hello_world():
-    user = {'username': 'Test Testovich'}
-    posts = [
-        {
-            'author': {'username': 'John'},
-            'body': 'I love vodka and 9!'
-        },
-        {
-            'author': {'username': 'Vasya'},
-            'body': 'I luv Guinness and cider!'
-        }
-    ]
-    return render_template('index.html', title='Home', user=user, posts=posts)

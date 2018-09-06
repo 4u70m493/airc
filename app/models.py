@@ -2,6 +2,8 @@ from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from app import db, login
+from helpers import form2datetime
+from sqlalchemy import Date, cast
 
 
 plans = db.Table('plans',
@@ -22,7 +24,17 @@ class Event(db.Model):
     desc = db.Column(db.String(512))
 
     def get_on_criteria(self, from_ts, to_ts, city, country):
-        return Event.query.filter_by(from_ts=from_ts, to_ts=to_ts, city=city, country=country).all()
+        from_ts = form2datetime(from_ts)
+        to_ts = form2datetime(to_ts)
+
+        q = Event.query.filter(
+            Event.city == city,
+            Event.country == country,
+            Event.from_ts.between(from_ts, to_ts),
+            Event.to_ts.between(from_ts, to_ts)
+        )
+        print q
+        return q
 
     def __repr__(self):
         return '<Event {}'.format(self.name)
