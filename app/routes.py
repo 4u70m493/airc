@@ -24,8 +24,10 @@ def index():
         country = form.country.data
         date_from = form.date_from.data
         date_to = form.date_to.data
-
         flash("Got: city, country, dates! Nice!")  # TODO implement actual search + return results!
+        e = Event()
+        events = Event.get_on_criteria(e, from_ts=date_from, to_ts=date_to, city=city, country=country)
+        return render_template('search-results.html', events=events)
     return render_template('index.html', title='Find best airshows around', form=form)
 
 
@@ -82,10 +84,10 @@ def plan(event_id):
     if event is None:
         flash('Event {} not found.'.format(event_id))
         return redirect(url_for('my-events'))
-    current_user.plan(event_id)
+    current_user.plan(event)
     db.session.commit()
     flash("You've planned {}!".format(event.name))
-    return redirect(url_for('my-events'))
+    return redirect(url_for('my_events'))
 
 
 @app.route('/unplan/<event_id>')
@@ -94,18 +96,18 @@ def unplan(event_id):
     event = Event.query.filter_by(id=event_id).first()
     if event is None:
         flash('Event {} not found.'.format(event_id))
-        return redirect(url_for('my-events'))
+        return redirect(url_for('my_events'))
 
-    current_user.unplan(event_id)
+    current_user.unplan(event)
     db.session.commit()
     flash('You have unplanned {}.'.format(event.name))
-    return redirect(url_for('my-events'))
+    return redirect(url_for('my_events'))
 
 
 @login_required
 @app.route('/my-events')
 def my_events():
-    events = current_user.planned_events().all()
+    events = current_user.get_planned_events().all()
     return render_template('my-events.html', events=events)
 
 
@@ -126,7 +128,7 @@ def new_event():
         db.session.commit()
 
         flash('Congratulations, you have added new event: {}'.format(event.name))
-        return redirect(url_for('show_event'.format(event.id)))  # todo will it work?
+        return redirect(url_for('show_event', event_id=event.id))
     return render_template('new-event.html', title='Add new event', form=form)
 
 

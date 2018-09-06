@@ -20,6 +20,9 @@ class Event(db.Model):
     country = db.Column(db.String(255))
     location = db.Column(db.String(255))
 
+    def get_on_criteria(self, from_ts, to_ts, city, country):
+        return Event.query.filter_by(from_ts=from_ts, to_ts=to_ts, city=city, country=country).all()
+
     def __repr__(self):
         return '<Event {}'.format(self.name)
 
@@ -55,7 +58,7 @@ class User(UserMixin, db.Model):
         return self.planned.filter(
             plans.c.event_id == event.id).count() > 0  # TODO: recheck this query expression!
 
-    def planned_events(self):
+    def get_planned_events(self):
         return Event.query.join(
             plans, (plans.c.event_id == Event.id)).filter(
             plans.c.user_id == self.id).order_by(

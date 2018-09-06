@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+        {% if events %}
+        <ul>
+            {% for event in events %}
+            <li>{{ event.name }}</li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>
+            Nothing found. Maybe try changing search filters?
+        </p>
+            <p><a href="{{ url_for('index') }}">Explore</a></p>
+            <p>Dream. Discover.</p>
+        {% endif %}
+{% endblock %}
