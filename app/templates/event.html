@@ -16,9 +16,9 @@
 
 {% if not current_user.is_anonymous %}
 {% if not current_user.is_planning(event) %}
-<p><a href="{{ url_for('plan', event_id=event.id) }}">Plan</a></p>
+<p><a href="{{ url_for('plan', event_id=event.id) }}" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Plan</a></p>
 {% else %}
-<p><a href="{{ url_for('unplan', event_id=event.id) }}">Unplan</a></p>
+<p><a href="{{ url_for('unplan', event_id=event.id) }}" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Unplan</a></p>
 {% endif %}
 {% else %}
 <p>

@@ -1,6 +1,8 @@
 from flask import Flask
 from flask_login import LoginManager
 from flask_bootstrap import Bootstrap
+# from flask_nav import Nav
+# from flask_nav.elements import Navbar, View
 
 # for database ops
 from flask_sqlalchemy import SQLAlchemy
@@ -13,6 +15,17 @@ from config import Config
 app = Flask(__name__)
 app.config.from_object(Config)   # TODO rewrite to reading a dedicated file
 bootstrap = Bootstrap(app)
+# nav = Nav()
+#
+# @nav.navigation()
+# def mynavbar():
+#     # TODO construct navbar using information about the user
+#     return Navbar(
+#         'MyNewWhatever',
+#         View('Home', 'index'),
+#     )
+# nav.init_app(app)
+#
 
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
@@ -23,4 +36,4 @@ login.login_view = 'login'
 from app import routes, models
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
