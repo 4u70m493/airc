@@ -2,14 +2,47 @@
 
 {% block content %}
         {% if events %}
-        <ul>
-            {% for event in events %}
-            <li>
+        <h3>Events:</h3>
+
+   <table class="table table-hover">
+       <tr>
+           <th>Name</th>
+           <th>From</th>
+           <th>To</th>
+           <th>Description</th>
+           <th>City</th>
+           <th>Country</th>
+           <th>Location</th>
+       </tr>
+
+       {% for event in events %}
+        <tr>
+            <td>
                 <a href="{{ url_for('show_event', event_id=event.id) }} ">{{ event.name }}</a>
-                ({{ event.from_ts }} - {{ event.to_ts }}, {{ event.location, event.city, event.country }})
-            </li>
-            {% endfor %}
-        </ul>
+            </td>
+            <td width="70px">
+                {{ event.from_ts }}
+            </td>
+            <td width="70px">
+                {{ event.to_ts }}
+            </td>
+            <td>
+                {{ event.desc }}
+            </td>
+                        <td>
+                {{ event.city }}
+            </td>
+                        <td>
+                {{ event.country }}
+            </td>
+            <td>
+                {{ event.location }}
+            </td>
+        </tr>
+       {% endfor %}
+
+    </table>
+
         {% else %}
         <p>
             Nothing found. Maybe try changing search filters?

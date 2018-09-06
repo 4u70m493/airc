@@ -1,14 +1,14 @@
-<html>
-    <head>
+{% extends "bootstrap/base.html" %}
+        {% block title %}
       {% if title %}
-      <title>{{ title }} - AirShows.pro</title>
+      {{ title }}
       {% else %}
-      <title>AirShows.pro</title>
+      AirShows.pro
       {% endif %}
-    </head>
-    <body>
-        <!-- Top level menu -->
-        <div>
+        {% endblock %}
+
+            {% block navbar %}
+            <nav class="navbar navbar-default navbar-fixed-top">
             <a href="{{ url_for('index') }}">Explore</a>
             {% if current_user.is_anonymous %}
             <a href="{{ url_for('register') }}">Register</a>
@@ -18,8 +18,10 @@
             <a href="{{ url_for('new_event') }}">New event</a>
             <a href="{{ url_for('logout') }}">Logout</a>
             {% endif %}
-        </div>
-        <hr>
+            {% endblock %}
+
+        {% block content %}
+        <div class="container">
         {% with messages = get_flashed_messages() %}
         {% if messages %}
         <ul>
@@ -29,6 +31,6 @@
         </ul>
         {% endif %}
         {% endwith %}
-        {% block content %}{% endblock %}
-    </body>
-</html>
+        {% block app_content %}{% endblock %}
+        </div>
+    {% endblock %}
