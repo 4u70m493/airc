@@ -19,6 +19,7 @@ class Event(db.Model):
     city = db.Column(db.String(255))
     country = db.Column(db.String(255))
     location = db.Column(db.String(255))
+    desc = db.Column(db.String(512))
 
     def get_on_criteria(self, from_ts, to_ts, city, country):
         return Event.query.filter_by(from_ts=from_ts, to_ts=to_ts, city=city, country=country).all()
