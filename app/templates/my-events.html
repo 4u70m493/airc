@@ -2,9 +2,13 @@
 
 {% block content %}
         {% if events %}
+        <p>My planned events:</p>
         <ul>
             {% for event in events %}
-            <li>{{ event.name }}</li>
+            <li>
+                <a href="{{ url_for('show_event', event_id=event.id) }} ">{{ event.name }}</a>
+                ({{ event.from_ts }} - {{ event.to_ts }}, {{ event.location, event.city, event.country }})
+            </li>
             {% endfor %}
         </ul>
         {% else %}
