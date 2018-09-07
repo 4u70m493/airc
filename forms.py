@@ -1,6 +1,7 @@
 # NOTE stolen from tutorial https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-iii-web-forms
+from datetime import date
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, DateField, TextAreaField
 from wtforms.validators import DataRequired, ValidationError, Email, EqualTo
 from app.models import User
 
@@ -15,15 +16,15 @@ class LoginForm(FlaskForm):
 class EventParamsForm(FlaskForm):
     city = StringField('City')
     country = StringField('Country')
-    date_from = StringField('Date from')
-    date_to = StringField('Date to')
+    date_from = DateField('Date from', default=date.today())
+    date_to = DateField('Date to', default=date.today())
     is_pilot = BooleanField('I am a pilot and will fly there')
     submit = SubmitField('Find events')
 
 
 class NewEventForm(FlaskForm):
     name = StringField('Event name')
-    desc = StringField('Description')
+    desc = TextAreaField('Description')
     city = StringField('City')
     country = StringField('Country')
     location = StringField('Location')

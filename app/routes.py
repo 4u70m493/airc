@@ -2,12 +2,11 @@ from app import app, db
 from flask import render_template, flash, redirect, url_for, request
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.urls import url_parse
-from app.models import User, Event
 from datetime import datetime
-from helpers import form2datetime
 
-# for forms
-from flask_wtf import FlaskForm
+# local stuff
+from app.models import User, Event
+from helpers import form2datetime
 from forms import LoginForm, EventParamsForm, RegistrationForm, NewEventForm
 
 # Libs for functionality
