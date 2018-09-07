@@ -23,11 +23,11 @@ def index():
         country = form.country.data
         date_from = form.date_from.data
         date_to = form.date_to.data
-        flash("Got: city, country, dates! Nice!")  # TODO implement actual search + return results!
+        #flash("Got: city, country, dates! Nice!")  # TODO implement actual search + return results!
         e = Event()
         events = Event.get_on_criteria(e, from_ts=date_from, to_ts=date_to, city=city, country=country).all()
         return render_template('search-results.html', events=events)
-    return render_template('index.html', title='Find best airshows around', form=form)
+    return render_template('index.html', title=_('Find best airshows around'), form=form)
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -42,9 +42,9 @@ def register():
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
-        flash('Congratulations, you are now a registered user!')
+        #flash('Congratulations, you are now a registered user!')
         return redirect(url_for('login'))
-    return render_template('register.html', title='Register', form=form)
+    return render_template('register.html', title=_('Register'), form=form)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -62,7 +62,7 @@ def login():
         if not next_page or url_parse(next_page).netloc != '':
             next_page = url_for('index')
         return redirect(next_page)
-    return render_template('login.html', title='Sign in', form=form)
+    return render_template('login.html', title=_('Sign in'), form=form)
 
 @app.route('/logout')
 def logout():

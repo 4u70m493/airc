@@ -4,49 +4,50 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, DateField, TextAreaField
 from wtforms.validators import DataRequired, ValidationError, Email, EqualTo
 from app.models import User
+from flask_babel import _
 
 
 class LoginForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired()])
-    password = PasswordField('Password', validators=[DataRequired()])
-    remember_me = BooleanField('Remember Me')
-    submit = SubmitField('Sign In')
+    username = StringField(_('Username'), validators=[DataRequired()])
+    password = PasswordField(_('Password'), validators=[DataRequired()])
+    remember_me = BooleanField(_('Remember Me'))
+    submit = SubmitField(_('Sign In'))
 
 
 class EventParamsForm(FlaskForm):
-    city = StringField('City')
-    country = StringField('Country')
-    date_from = DateField('Date from', default=date.today())
-    date_to = DateField('Date to', default=date.today())
-    is_pilot = BooleanField('I am a pilot and will fly there')
-    submit = SubmitField('Find events')
+    city = StringField(_('City'))
+    country = StringField(_('Country'))
+    date_from = DateField(_('Date from'), default=date.today())
+    date_to = DateField(_('Date to'), default=date.today())
+    is_pilot = BooleanField(_('I am a pilot and will fly there'))
+    submit = SubmitField(_('Find events'))
 
 
 class NewEventForm(FlaskForm):
-    name = StringField('Event name')
-    desc = TextAreaField('Description')
-    city = StringField('City')
-    country = StringField('Country')
-    location = StringField('Location')
-    from_ts = StringField('Date from')
-    to_ts = StringField('Date to')
-    submit = SubmitField('Add event')
+    name = StringField(_('Event name'))
+    desc = TextAreaField(_('Description'))
+    city = StringField(_('City'))
+    country = StringField(_('Country'))
+    location = StringField(_('Location'))
+    from_ts = StringField(_('Date from'))
+    to_ts = StringField(_('Date to'))
+    submit = SubmitField(_('Add event'))
 
 
 class RegistrationForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired()])
-    email = StringField('Email', validators=[DataRequired(), Email()])
-    password = PasswordField('Password', validators=[DataRequired()])
-    password2 = PasswordField(
-        'Repeat Password', validators=[DataRequired(), EqualTo('password')])
-    submit = SubmitField('Register')
+    username = StringField(_('Username'), validators=[DataRequired()])
+    email = StringField(_('Email'), validators=[DataRequired(), Email()])
+    password = PasswordField(_('Password'), validators=[DataRequired()])
+    password2 = PasswordField(_(
+        'Repeat Password'), validators=[DataRequired(), EqualTo('password')])
+    submit = SubmitField(_('Register'))
 
     def validate_username(self, username):
         user = User.query.filter_by(username=username.data).first()
         if user is not None:
-            raise ValidationError('Please use a different username.')
+            raise ValidationError(_('Please use a different username.'))
 
     def validate_email(self, email):
         user = User.query.filter_by(email=email.data).first()
         if user is not None:
-            raise ValidationError('Please use a different email address.')
+            raise ValidationError(_('Please use a different email address.'))
