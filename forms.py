@@ -15,8 +15,8 @@ class LoginForm(FlaskForm):
 
 
 class EventParamsForm(FlaskForm):
-    city = StringField(_('City'))
-    country = StringField(_('Country'))
+    city = StringField(_('City'), validators=[DataRequired()])
+    country = StringField(_('Country'), validators=[DataRequired()])
     date_from = DateField(_('Date from'), default=date.today())
     date_to = DateField(_('Date to'), default=date.today())
     is_pilot = BooleanField(_('I am a pilot and will fly there'))
@@ -24,13 +24,13 @@ class EventParamsForm(FlaskForm):
 
 
 class NewEventForm(FlaskForm):
-    name = StringField(_('Event name'))
+    name = StringField(_('Event name'), validators=[DataRequired()])
     desc = TextAreaField(_('Description'))
-    city = StringField(_('City'))
-    country = StringField(_('Country'))
-    location = StringField(_('Location'))
-    from_ts = StringField(_('Date from'))
-    to_ts = StringField(_('Date to'))
+    city = StringField(_('City'), validators=[DataRequired()])
+    country = StringField(_('Country'), validators=[DataRequired()])
+    location = StringField(_('Location'), validators=[DataRequired()])
+    from_ts = StringField(_('Date from'), validators=[DataRequired()])
+    to_ts = StringField(_('Date to'), validators=[DataRequired()])
     submit = SubmitField(_('Add event'))
 
 
