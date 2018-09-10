@@ -1,10 +1,12 @@
 # NOTE stolen from tutorial https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-iii-web-forms
 from datetime import date
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, DateField, TextAreaField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField
+from wtforms.fields.html5 import DateField
 from wtforms.validators import DataRequired, ValidationError, Email, EqualTo
-from app.models import User
 from flask_babel import _
+
+from app.models import User
 
 
 class LoginForm(FlaskForm):
@@ -17,8 +19,8 @@ class LoginForm(FlaskForm):
 class EventParamsForm(FlaskForm):
     city = StringField(_('City'), validators=[DataRequired()])
     country = StringField(_('Country'), validators=[DataRequired()])
-    date_from = DateField(_('Date from'), default=date.today())
-    date_to = DateField(_('Date to'), default=date.today())
+    date_from = DateField(_('Date from', format='%Y-%m-%d'), default=date.today())
+    date_to = DateField(_('Date to', format='%Y-%m-%d'), default=date.today())
     is_pilot = BooleanField(_('I am a pilot and will fly there'))
     submit = SubmitField(_('Find events'))
 
@@ -29,8 +31,8 @@ class NewEventForm(FlaskForm):
     city = StringField(_('City'), validators=[DataRequired()])
     country = StringField(_('Country'), validators=[DataRequired()])
     location = StringField(_('Location'), validators=[DataRequired()])
-    from_ts = StringField(_('Date from'), validators=[DataRequired()])
-    to_ts = StringField(_('Date to'), validators=[DataRequired()])
+    from_ts = DateField(_('Date from', format='%Y-%m-%d'), default=date.today(), validators=[DataRequired()])
+    to_ts = DateField(_('Date to', format='%Y-%m-%d'), default=date.today(), validators=[DataRequired()])
     submit = SubmitField(_('Add event'))
 
 
