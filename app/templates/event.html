@@ -1,12 +1,12 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Event: {{ event.name }}</h1>
-{% if event.from_ts %}<p>From: {{ event.from_ts }}</p>{% endif %}
+<h1>{{ _('Event:') }} {{ event.name }}</h1>
+{% if event.from_ts %}<p>{{ _('From:') }} {{ event.from_ts }}</p>{% endif %}
 {% if event.to_ts %}<p>Till: {{ event.to_ts }}</p>{% endif %}
 
 {% if event.desc %}
-<h3>Description</h3>
+<h3>{{ _('Description') }}</h3>
 <p>
     {{ event.desc }}
 </p>
