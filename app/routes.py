@@ -118,8 +118,8 @@ def new_event():
     if form.validate_on_submit():
         event = Event()
         event.name = form.name.data
-        event.from_ts = form2datetime(form.from_ts.data)
-        event.to_ts = form2datetime(form.to_ts.data)
+        event.from_ts = form.from_ts.data
+        event.to_ts = form.to_ts.data
         event.added_ts = datetime.utcnow()
         event.city = form.city.data
         event.country = form.country.data

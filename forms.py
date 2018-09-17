@@ -21,12 +21,12 @@ class LoginForm(FlaskForm):
 
 
 class EventParamsForm(FlaskForm):
-    city = StringField(_('City'), validators=[DataRequired()])
-    country = StringField(_('Country'), validators=[DataRequired()])
-    date_from = DateField(_('Date from', format='%Y-%m-%d'), default=default_from_date)
-    date_to = DateField(_('Date to', format='%Y-%m-%d'), default=default_to_date)
-    is_pilot = BooleanField(_('I am a pilot and will fly there'))
-    submit = SubmitField(_('Find events'))
+    city = StringField(_l('City'), validators=[DataRequired()])
+    country = StringField(_l('Country'), validators=[DataRequired()])
+    date_from = DateField(_l('Date from', format='%Y-%m-%d'), default=default_from_date)
+    date_to = DateField(_l('Date to', format='%Y-%m-%d'), default=default_to_date)
+    is_pilot = BooleanField(_l('I am a pilot and will fly there'))
+    submit = SubmitField(_l('Find events'))
 
 
 class NewEventForm(FlaskForm):
