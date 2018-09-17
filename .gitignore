@@ -7,3 +7,4 @@ venv/
 *.pyc
 *.db
 .flaskenv
+.env
