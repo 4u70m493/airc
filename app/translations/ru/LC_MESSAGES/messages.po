@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2018-09-07 14:19+0300\n"
-"PO-Revision-Date: 2018-09-07 14:20+0300\n"
+"POT-Creation-Date: 2018-09-20 19:58+0300\n"
+"PO-Revision-Date: 2018-09-20 19:45+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ru\n"
 "Language-Team: ru <LL@li.org>\n"
@@ -19,87 +19,99 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.6.0\n"
 
-#: forms.py:11 forms.py:38
+#: forms.py:17 forms.py:44
 msgid "Username"
-msgstr ""
+msgstr "Никнейм"
 
-#: forms.py:12 forms.py:40
+#: forms.py:18 forms.py:46
 msgid "Password"
-msgstr ""
+msgstr "Пароль"
 
-#: forms.py:13
+#: forms.py:19
 msgid "Remember Me"
-msgstr ""
+msgstr "Запомнить меня"
 
-#: forms.py:14
+#: forms.py:20
 msgid "Sign In"
-msgstr ""
+msgstr "Войти"
 
-#: forms.py:18 forms.py:29
+#: forms.py:24 forms.py:35
 msgid "City"
-msgstr ""
+msgstr "Город"
 
-#: forms.py:19 forms.py:30
+#: forms.py:25 forms.py:36
 msgid "Country"
-msgstr ""
+msgstr "Страна"
 
-#: forms.py:20 forms.py:32
+#: forms.py:26 forms.py:38
 msgid "Date from"
-msgstr ""
+msgstr "Дата начала"
 
-#: forms.py:21 forms.py:33
+#: forms.py:27 forms.py:39
 msgid "Date to"
-msgstr ""
-
-#: forms.py:22
-msgid "I am a pilot and will fly there"
-msgstr ""
-
-#: forms.py:23
-msgid "Find events"
-msgstr ""
-
-#: forms.py:27
-msgid "Event name"
-msgstr ""
+msgstr "Дата окончания"
 
 #: forms.py:28
+msgid "I am a pilot and will fly there"
+msgstr "Я пилот и планирую прилет"
+
+#: forms.py:29
+msgid "Find events"
+msgstr "Найти события"
+
+#: forms.py:33
+msgid "Event name"
+msgstr "Название события"
+
+#: app/templates/event.html:9 forms.py:34
 msgid "Description"
-msgstr ""
+msgstr "Описание"
 
-#: forms.py:31
+#: forms.py:37
 msgid "Location"
-msgstr ""
+msgstr "Название места"
 
-#: forms.py:34
+#: forms.py:40
 msgid "Add event"
-msgstr ""
+msgstr "Добавить событие"
 
-#: forms.py:39
+#: forms.py:45
 msgid "Email"
-msgstr ""
+msgstr "Email"
 
-#: forms.py:41
+#: forms.py:47
 msgid "Repeat Password"
-msgstr ""
+msgstr "Пароль еще раз"
 
-#: app/routes.py:47 forms.py:43
+#: app/routes.py:48 forms.py:49
 msgid "Register"
-msgstr ""
+msgstr "Зарегистрироваться"
 
-#: forms.py:48
+#: forms.py:54
 msgid "Please use a different username."
-msgstr ""
+msgstr "Пожалуйста, используйте другое имя пользователя"
 
-#: forms.py:53
+#: forms.py:59
 msgid "Please use a different email address."
-msgstr ""
+msgstr "Пожалуйста, используйте другой адрес эл. почты"
 
-#: app/routes.py:30
+#: app/routes.py:31
 msgid "Find best airshows around"
-msgstr ""
+msgstr "Авиапраздники неподалеку"
 
-#: app/routes.py:65
+#: app/routes.py:66 app/templates/login.html:5
 msgid "Sign in"
-msgstr ""
+msgstr "Войти"
+
+#: app/templates/event.html:4
+msgid "Event:"
+msgstr "Событие:"
+
+#: app/templates/event.html:5
+msgid "From:"
+msgstr "С: "
+
+#: app/templates/index.html:5
+msgid "Find best airshows in your area"
+msgstr "Авиапраздники неподалеку"
 
