@@ -30,6 +30,13 @@ def index():
         return render_template('search-results.html', events=events)
     return render_template('index.html', title=_('Find best airshows around'), form=form)
 
+@app.route('/map')
+def map():
+    mapbox_key = app.config.get('MAPBOX_KEY')
+    if not mapbox_key:
+        flash("Could not retrieve mapbox key! Will not draw the map! Check .env")
+    return render_template('map.html', title=_('Map!'), key=mapbox_key)
+
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
