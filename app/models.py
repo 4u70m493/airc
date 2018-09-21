@@ -100,5 +100,12 @@ class Location(db.Model):
             Location.id == id
         )
 
+    def get_by_city_country_name(self, city, country, name):
+        return Location.query.filter(
+            Location.name == name,
+            Location.city == city,
+            Location.country == country
+        )
+
     def __repr__(self):
         return '<Event {}'.format(self.name)
