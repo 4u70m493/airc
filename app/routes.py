@@ -130,7 +130,7 @@ def new_event():
         event.added_ts = datetime.utcnow()
         event.city = form.city.data
         event.country = form.country.data
-        event.location = form.location.data
+        event.location_name = form.location.data
         event.desc = form.desc.data
         db.session.add(event)
         db.session.commit()

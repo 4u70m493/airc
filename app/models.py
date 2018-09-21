@@ -3,7 +3,6 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 
 from app import db, login
-from .helpers import form2datetime
 
 
 plans = db.Table('plans',
@@ -13,6 +12,7 @@ plans = db.Table('plans',
 
 
 class Event(db.Model):
+    __tablename__ = 'event'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), index=True, unique=True)
     from_ts = db.Column(db.DateTime)
@@ -20,7 +20,9 @@ class Event(db.Model):
     added_ts = db.Column(db.DateTime, default=datetime.utcnow)
     city = db.Column(db.String(255))
     country = db.Column(db.String(255))
-    location = db.Column(db.String(255))
+    location_name = db.Column(db.String(255))
+    location_id = db.Column(db.Integer, db.ForeignKey('location.id'))
+    location = db.relationship("Location", back_populates='events')
     desc = db.Column(db.String(512))
 
     def get_on_criteria(self, from_ts, to_ts, city, country):
@@ -79,3 +81,24 @@ class User(UserMixin, db.Model):
 @login.user_loader
 def load_user(id):
     return User.query.get(int(id))
+
+
+class Location(db.Model):
+    __tablename__ = 'location'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(255), index=True, unique=True)
+    lat = db.Column(db.DECIMAL(10,7))
+    lon = db.Column(db.DECIMAL(10,7))
+    added_ts = db.Column(db.DateTime, default=datetime.utcnow)
+    city = db.Column(db.String(255))
+    country = db.Column(db.String(255))
+    desc = db.Column(db.String(512))
+    events = db.relationship("Event", back_populates='location')
+
+    def get_by_id(self, id):
+        return Location.query.filter(
+            Location.id == id
+        )
+
+    def __repr__(self):
+        return '<Event {}'.format(self.name)

@@ -12,7 +12,7 @@
 </p>
 {% endif %}
 
-<b>Location:</b> {{ event.location, event.city, event.country }}
+<b>Location:</b> {{ event.location_name, event.city, event.country }}
 
 {% if not current_user.is_anonymous %}
 {% if not current_user.is_planning(event) %}
