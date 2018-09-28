@@ -57,3 +57,12 @@ class RegistrationForm(FlaskForm):
         user = User.query.filter_by(email=email.data).first()
         if user is not None:
             raise ValidationError(_l('Please use a different email address.'))
+
+class NewLocationForm(FlaskForm):
+    name = StringField(_l('Location name'), validators=[DataRequired()])
+    city = StringField(_l('City'), validators=[DataRequired()])
+    country = StringField(_l('Country'), validators=[DataRequired()])
+    desc = TextAreaField(_l('Description'))
+    lat = StringField(_l('Latitude'), validators=[DataRequired()])
+    lon = StringField(_l('Longitude'), validators=[DataRequired()])
+    submit = SubmitField(_l('Add location'))

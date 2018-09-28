@@ -3,12 +3,12 @@ from flask import render_template, flash, redirect, url_for, request
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.urls import url_parse
 from datetime import datetime
-from flask_babel import gettext as _
+from flask_babel import gettext as _, lazy_gettext as _l
 
 # local stuff
-from .models import User, Event
+from .models import User, Event, Location
 from .helpers import form2datetime
-from forms import LoginForm, EventParamsForm, RegistrationForm, NewEventForm
+from forms import LoginForm, EventParamsForm, RegistrationForm, NewEventForm, NewLocationForm
 
 # Libs for functionality
 import calendar as cal
@@ -138,6 +138,25 @@ def new_event():
         flash('Congratulations, you have added new event: {}'.format(event.name))
         return redirect(url_for('show_event', event_id=event.id))
     return render_template('new-event.html', title='Add new event', form=form)
+
+@login_required
+@app.route('/new-location', methods=['GET', 'POST'])
+def new_location():
+    form = NewLocationForm()
+    if form.validate_on_submit():
+        l = Location()
+        l.name = form.name.data
+        l.city = form.city.data
+        l.country = form.country.data
+        l.desc = form.desc.data
+        l.lat = form.lat.data
+        l.lon = form.lon.data
+        db.session.add(l)
+        db.session.commit()
+
+        flash(_l('Your location {} was added to the database, thanks!'.format(l.name)))
+        return redirect(url_for('show_location', location_id=l.id))
+    return render_template('new-location.html', title=_l('Add new location'), form=form)
 
 
 @app.route('/calendar')
