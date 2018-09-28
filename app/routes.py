@@ -159,6 +159,12 @@ def new_location():
     return render_template('new-location.html', title=_l('Add new location'), form=form)
 
 
+@app.route('/location/<location_id>')
+def show_location(location_id):
+    location = Location.query.filter_by(id=location_id).first_or_404()
+    return render_template('location.html', location=location)
+
+
 @app.route('/calendar')
 def show_calendar():
     c = cal.HTMLCalendar(cal.MONDAY)
