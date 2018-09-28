@@ -162,7 +162,8 @@ def new_location():
 @app.route('/location/<location_id>')
 def show_location(location_id):
     location = Location.query.filter_by(id=location_id).first_or_404()
-    return render_template('location.html', location=location)
+    events = location.get_events_by_id(location.id)
+    return render_template('location.html', location=location, events=events)
 
 
 @app.route('/calendar')

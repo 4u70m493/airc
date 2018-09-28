@@ -107,5 +107,9 @@ class Location(db.Model):
             Location.country == country
         )
 
+    def get_events_by_id(self, id):
+        return Location.query.join(Event).filter(id == Event.location_id).order_by(Event.from_ts).order_by(Event.from_ts.asc())
+
+
     def __repr__(self):
         return '<Event {}'.format(self.name)
