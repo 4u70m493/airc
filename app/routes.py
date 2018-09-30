@@ -1,9 +1,12 @@
 from app import app, db
-from flask import render_template, flash, redirect, url_for, request
+from flask import render_template, flash, redirect, url_for, request, jsonify
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.urls import url_parse
 from datetime import datetime
+
+# Localization imports: translation and guess user lang
 from flask_babel import gettext as _, lazy_gettext as _l
+from guess_language import guess_language
 
 # local stuff
 from .models import User, Event, Location
@@ -132,6 +135,16 @@ def new_event():
         event.country = form.country.data
         event.location_name = form.location.data
         event.desc = form.desc.data
+
+        # try to guess language, fallback to default
+        language = guess_language(form.post.data)
+        if language == 'UNKNOWN' or len(language) > 5:
+            language = ''
+        event.language = language
+
+        # TODO find by city/country/location name the location we're talking about and insert its id in event!
+        # todo what if this location is absent in the database?
+
         db.session.add(event)
         db.session.commit()
 
@@ -170,3 +183,11 @@ def show_location(location_id):
 def show_calendar():
     c = cal.HTMLCalendar(cal.MONDAY)
     return c.formatmonth(2018,9)
+
+# NOTE: below experimental routes for Ajax go. Please be careful here. They may work and may not work.
+@login_required
+@app.route('/countries', methods=['POST'])
+def get_countries():
+    #countries = ['Russia', 'England / United Kingdom / UK', 'United States / US' ]
+    countries = 'Russia'
+    return jsonify({'countries': countries}) # TODO: make it ok

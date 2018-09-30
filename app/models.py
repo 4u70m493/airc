@@ -24,6 +24,7 @@ class Event(db.Model):
     location_id = db.Column(db.Integer, db.ForeignKey('location.id'))
     location = db.relationship("Location", back_populates='events')
     desc = db.Column(db.String(512))
+    language = db.Column(db.String(5))
 
     def get_on_criteria(self, from_ts, to_ts, city, country):
         return Event.query.filter(
@@ -93,6 +94,7 @@ class Location(db.Model):
     city = db.Column(db.String(255))
     country = db.Column(db.String(255))
     desc = db.Column(db.String(512))
+    language = db.Column(db.String(5))
     events = db.relationship("Event", back_populates='location')
 
     def get_by_id(self, id):
