@@ -4,7 +4,7 @@ import datetime
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField
 from wtforms.fields.html5 import DateField
-from wtforms.validators import DataRequired, ValidationError, Email, EqualTo
+from wtforms.validators import DataRequired, ValidationError, Email, EqualTo, Length
 from app.models import User
 from flask_babel import lazy_gettext as _l
 
@@ -33,7 +33,7 @@ class NewEventForm(FlaskForm):
     name = StringField(_l('Event name'), validators=[DataRequired()])
     desc = TextAreaField(_l('Description'))
     city = StringField(_l('City'), validators=[DataRequired()])
-    country = StringField(_l('Country'), validators=[DataRequired()])
+    country = StringField(_l('Country'), id='country_ac', validators=[DataRequired()])
     location = StringField(_l('Location'), validators=[DataRequired()])
     from_ts = DateField(_l('Date from', format='%Y-%m-%d'), default=default_from_date, validators=[DataRequired()])
     to_ts = DateField(_l('Date to', format='%Y-%m-%d'), default=default_to_date, validators=[DataRequired()])
@@ -61,8 +61,13 @@ class RegistrationForm(FlaskForm):
 class NewLocationForm(FlaskForm):
     name = StringField(_l('Location name'), validators=[DataRequired()])
     city = StringField(_l('City'), validators=[DataRequired()])
-    country = StringField(_l('Country'), validators=[DataRequired()])
+    country = StringField(_l('Country'), id='country_ac', validators=[DataRequired()])
     desc = TextAreaField(_l('Description'))
     lat = StringField(_l('Latitude'), validators=[DataRequired()])
     lon = StringField(_l('Longitude'), validators=[DataRequired()])
     submit = SubmitField(_l('Add location'))
+
+# TODO: don't forget to remove this after finishing testing evth
+class TestForm(FlaskForm):
+    country = StringField('Country', id='country_ac', validators=[DataRequired(),
+    Length(max=40)],render_kw={"placeholder": "country"})

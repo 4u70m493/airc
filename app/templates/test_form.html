@@ -7,10 +7,11 @@
 {% endblock %}
 
 {% block app_content %}
-    <h1>Add new event</h1>
-    <div class="row">
-        <div class="col-md-4">
-            {{ wtf.quick_form(form) }}
-        </div>
+<form class="form-inline">
+    <div class="form-group">
+        {{ form.country(class="form-control") }}
     </div>
+    <button type="submit" class="btn btn-info">Submit</button>
+</form>
+<div id="result"></div>
 {% endblock %}

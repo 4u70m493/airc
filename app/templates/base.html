@@ -3,10 +3,17 @@
     {{super()}}
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
     {% endblock styles %}
+
     {% block scripts %}
-<!--<script src="{{url_for('.static', filename='myscripts.js')}}"></script>-->
+    <!--<script src="{{ url_for('.static', filename='scripts.js') }}"></script>-->
     {{super()}}
+    <script
+        src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"
+        integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30="
+        crossorigin="anonymous">
+    </script>
     {% endblock %}
+
         {% block title %}
       {% if title %}
       {{ title }}

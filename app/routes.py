@@ -9,9 +9,9 @@ from flask_babel import gettext as _, lazy_gettext as _l
 from guess_language import guess_language
 
 # local stuff
-from .models import User, Event, Location
+from .models import User, Event, Location, Country
 from .helpers import form2datetime
-from forms import LoginForm, EventParamsForm, RegistrationForm, NewEventForm, NewLocationForm
+from forms import LoginForm, EventParamsForm, RegistrationForm, NewEventForm, NewLocationForm, TestForm
 
 # Libs for functionality
 import calendar as cal
@@ -184,10 +184,16 @@ def show_calendar():
     c = cal.HTMLCalendar(cal.MONDAY)
     return c.formatmonth(2018,9)
 
-# NOTE: below experimental routes for Ajax go. Please be careful here. They may work and may not work.
 @login_required
-@app.route('/countries', methods=['POST'])
+@app.route('/test_form', methods=['GET', 'POST'])
+def test_form():
+    form = TestForm()
+    return render_template('test_form.html', form=form) # TODO specify in FORM FIELD its id for autocomplete selector!
+
+# Below: Ajax autocomplete forms data
+@login_required
+@app.route('/countries', methods=['GET'])
 def get_countries():
-    #countries = ['Russia', 'England / United Kingdom / UK', 'United States / US' ]
-    countries = 'Russia'
-    return jsonify({'countries': countries}) # TODO: make it ok
+    res = Country.query.all()
+    countries = [r.as_dict() for r in res]
+    return jsonify(countries)

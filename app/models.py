@@ -115,3 +115,17 @@ class Location(db.Model):
 
     def __repr__(self):
         return '<Event {}'.format(self.name)
+
+class Country(db.Model):
+    __tablename__ = 'country'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(255), unique=True, nullable = False)
+    isoa2 = db.Column(db.String(6), unique=True, nullable = False)
+    isoa3 = db.Column(db.String(3), unique=True, nullable = False)
+
+    def __repr__(self):
+        return '{} - {}'.format(self.iso, self.name)
+
+    def as_dict(self):
+        return {'name': self.name}
