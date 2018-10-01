@@ -116,6 +116,9 @@ class Location(db.Model):
     def __repr__(self):
         return '<Event {}'.format(self.name)
 
+    def as_dict(self):
+        return {'name': self.name}
+
 class Country(db.Model):
     __tablename__ = 'country'
 

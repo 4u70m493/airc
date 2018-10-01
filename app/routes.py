@@ -197,3 +197,10 @@ def get_countries():
     res = Country.query.all()
     countries = [r.as_dict() for r in res]
     return jsonify(countries)
+
+@login_required
+@app.route('/locations', methods=['GET'])
+def get_locations():
+    res = Location.query.all()
+    locations = [r.as_dict() for r in res]
+    return jsonify(locations)
